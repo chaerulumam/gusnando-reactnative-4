@@ -20,11 +20,28 @@ class App extends Component {
       .catch(err => console.log(err));
   };
 
+  sendData = () => {
+    fetch('https://jsonplaceholder.typicode.com/posts', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        nama: 'Umem',
+        umur: 22,
+      }),
+    })
+      .then(response => response.json())
+      .then(json => console.log(json))
+      .catch(err => console.log(err));
+  };
+
   render() {
     return (
       <View>
-        <TouchableOpacity onPress={() => this.getData()}>
-          <Text>Klik Get Data</Text>
+        <TouchableOpacity onPress={() => this.sendData()}>
+          <Text>Klik Send Data</Text>
         </TouchableOpacity>
 
         <FlatList
