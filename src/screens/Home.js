@@ -2,7 +2,6 @@ import React, {Component} from 'react';
 import {Image, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FlatGrid} from 'react-native-super-grid';
-import Product from '../img/step1.png';
 
 class Home extends Component {
   constructor(props) {
@@ -50,15 +49,25 @@ class Home extends Component {
             itemDimension={300}
             data={this.state.data}
             renderItem={({item}) => (
-              <View
+              <TouchableOpacity
                 style={{
                   backgroundColor: '#fff',
                   elevation: 20,
                   flexDirection: 'row',
                   marginLeft: 10,
-                }}>
+                }}
+                onPress={() =>
+                  this.props.navigation.navigate('Detail', {
+                    title: item.title,
+                    body: item.body,
+                    image: 'https://reactjs.org/logo-og.png',
+                  })
+                }>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
-                  <Image source={Product} style={{width: 100, height: 100}} />
+                  <Image
+                    source={{uri: 'https://reactjs.org/logo-og.png'}}
+                    style={{width: 100, height: 100}}
+                  />
                 </View>
                 <View
                   style={{
@@ -74,7 +83,7 @@ class Home extends Component {
                   </Text>
                   <Text>{item.body.slice(0, 100)}</Text>
                 </View>
-              </View>
+              </TouchableOpacity>
             )}
           />
         </View>
