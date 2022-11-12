@@ -16,16 +16,9 @@ class Home extends Component {
   }
 
   getData = () => {
-    fetch('https://jsonplaceholder.typicode.com/photos')
+    fetch('https://jsonplaceholder.typicode.com/posts')
       .then(response => response.json())
-      .then(json => {
-        let data = [];
-        for (let i = 0; i < 10; i++) {
-          data.push(json[i]);
-        }
-
-        this.setState({data});
-      });
+      .then(json => this.setState({data: json}));
   };
 
   render() {
@@ -53,21 +46,27 @@ class Home extends Component {
         </View>
         <View style={{flex: 1}}>
           <FlatGrid
-            itemDimension={150}
+            itemDimension={300}
             data={this.state.data}
             renderItem={({item}) => (
               <TouchableOpacity
                 style={{
                   backgroundColor: '#fff',
                   elevation: 20,
-                  height: 200,
-                  marginTop: 10,
+                  flexDirection: 'row',
                   marginLeft: 10,
-                }}>
+                }}
+                onPress={() =>
+                  this.props.navigation.navigate('Detail', {
+                    title: item.title,
+                    body: item.body,
+                    image: 'https://reactjs.org/logo-og.png',
+                  })
+                }>
                 <View style={{justifyContent: 'center', alignItems: 'center'}}>
                   <Image
-                    source={{uri: item.url}}
-                    style={{width: 100, height: 100, borderRadius: 100}}
+                    source={{uri: 'https://reactjs.org/logo-og.png'}}
+                    style={{width: 100, height: 100}}
                   />
                 </View>
                 <View
@@ -82,6 +81,7 @@ class Home extends Component {
                   <Text style={{fontWeight: 'bold', marginBottom: 10}}>
                     {item.title}
                   </Text>
+                  <Text>{item.body.slice(0, 100)}</Text>
                 </View>
               </TouchableOpacity>
             )}
@@ -97,13 +97,12 @@ class Home extends Component {
           }}>
           <TouchableOpacity
             style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-            <Icon name="home" size={25} color="#FF9800" />
+            <Icon name="home" size={25} color="#bdbd" />
           </TouchableOpacity>
 
           <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Album')}
             style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
-            <Icon name="folder-open" size={25} color="#bdbd" />
+            <Icon name="folder-open" size={25} color="#FF9800" />
           </TouchableOpacity>
           <TouchableOpacity
             style={{justifyContent: 'center', alignItems: 'center', flex: 1}}>
