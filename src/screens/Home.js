@@ -2,13 +2,26 @@ import React, {Component} from 'react';
 import {Image, StatusBar, Text, TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome5';
 import {FlatGrid} from 'react-native-super-grid';
-import Product from '../img/man-1.jpg';
+import Product from '../img/step1.png';
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      data: [],
+    };
   }
+
+  componentDidMount() {
+    this.getData();
+  }
+
+  getData = () => {
+    fetch('https://jsonplaceholder.typicode.com/posts')
+      .then(response => response.json())
+      .then(json => this.setState({data: json}));
+  };
+
   render() {
     return (
       <View style={{flex: 1}}>
@@ -35,18 +48,31 @@ class Home extends Component {
         <View style={{flex: 1}}>
           <FlatGrid
             itemDimension={300}
-            data={[1, 2, 3, 4, 5, 6]}
+            data={this.state.data}
             renderItem={({item}) => (
               <View
                 style={{
                   backgroundColor: '#fff',
                   elevation: 20,
                   flexDirection: 'row',
+                  marginLeft: 10,
                 }}>
-                <Image source={Product} style={{width: 100, height: 100}} />
-                <View style={{justifyContent: 'center', marginLeft: 20}}>
-                  <Text>{item}</Text>
-                  <Text>{item}</Text>
+                <View style={{justifyContent: 'center', alignItems: 'center'}}>
+                  <Image source={Product} style={{width: 100, height: 100}} />
+                </View>
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    marginLeft: 20,
+                    flex: 1,
+                    marginRight: 20,
+                    marginBottom: 10,
+                    marginTop: 10,
+                  }}>
+                  <Text style={{fontWeight: 'bold', marginBottom: 10}}>
+                    {item.title}
+                  </Text>
+                  <Text>{item.body.slice(0, 100)}</Text>
                 </View>
               </View>
             )}
